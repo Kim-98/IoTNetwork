@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8">
+<title>MQTT Monitoring Service</title>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+	var socket = null;
+	var timer = null;
+	var volume = null;
+	var arr = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
+	$(document).ready(function(){
+		socket=io.connect();
+
+		socket.on("socket_evt_temp", function(data){
+			data=JSON.parse(data);
+			$(".temperaturelist").html('<li>'+data.temp+' C'+'</li>');
+			
+			if(data.temp >= 36 && data.temp <= 37){
+				$(".bodytmp").css("background-color","#00FF40");
+				$(".warning").html("Notice : 정상 체온입니다.");
+			} else if(data.temp < 36 && data.temp > 29) {
+				$(".bodytmp").css("background-color","#81BEF7");
+				$(".warning").html("Notice : 저체온( 체온이 낮습니다. )");
+			} else if(data.temp > 36) {
+				$(".bodytmp").css("background-color","#FE2E2E");
+				$(".warning").html("Notice : 발열( 체온이 높습니다. )");
+			} else {
+				$(".bodytmp").css("background-color","white");
+				$(".warning").html("Notice : 이어폰을 착용하지 않은 상태입니다.");
+			}
+		});
+
+		socket.on("socket_evt_decibel", function(data){
+			data=JSON.parse(data);
+			$(".dBlist").html('<li>'+data.dB +' dB'+'</li>');
+
+			volume = parseInt(data.dB / 10);
+			$(".volume").html('<li>' + arr[volume] + ' Level' + '</li>');
+			document.getElementById("progressbar").value = arr[volume];
+		});
+		
+		if(timer==null){
+			timer = window.setInterval("timer1()", 1000);
+		}
+	});
+
+	function timer1(){
+		socket.emit("socket_evt_temp", JSON.stringify({}));
+		socket.emit("socket_evt_decibel", JSON.stringify({}));
+	}
+
+</script>
+	<style>
+		.imgset {
+			float: left;
+			clear: both;
+			margin-left: 80px;
+			margin-bottom: 20px;
+			vertical-align: top;
+		}
+		#textalign {
+			text-align: center;
+		}
+		#title {
+			background-color: #A9F5E1;
+			text-align: center;
+			font-size: 300%;
+		}
+		#align {
+			text-align: center;
+			float: left;
+			margin-left: 70px;
+		}
+		progress {
+			width: 300px;
+			margin-left: 70px;
+		}
+		
+	</style>
+
+</head>
+<body>
+	<h1 id="title">Smart Earphone</h1>
+	<hr><hr style="margin-bottom:50px;">
+	<fieldset class="bodytmp">
+		<legend><h1>Temperature</h1></legend>
+			<img src="person.png" alt="personIcon" class="imgset">
+			<div id="textalign">
+				<h1>사용자 체온 감지</h1>
+				<h1 class="temperaturelist"></h1>
+				<h2 class="warning"></h2>
+			</div>
+	</fieldset>
+	<fieldset>
+		<legend><h1>Volume</h1></legend>
+		<progress id="progressbar" value="5" max="9"></progress>
+		<img src="volume.png" alt="volumeIcon" align="left">
+		<div id="align">
+			<h1 style="margin-top:44px" position="static">주변 소음</h1>
+			<h2 class="dBlist"></h2>
+		</div>
+		<div id="align">
+			<h1>이어폰 음량(auto)</h1>
+			<h2 class="volume"></h2>
+		</div>
+	</fieldset>
+</body>
+</html>
