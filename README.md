@@ -14,3 +14,10 @@
 ![image](https://user-images.githubusercontent.com/67696918/117571441-8ccd0300-b109-11eb-81f0-e8c3bd1e5742.png)
 ![image](https://user-images.githubusercontent.com/67696918/117571448-97879800-b109-11eb-9e17-a2a6eced469f.png)
 
+## 시스템 구성
+![image](https://user-images.githubusercontent.com/67696918/117571505-cbfb5400-b109-11eb-8746-df3eebe3483d.png)
+
+## 상황 별 웹 화면
+![image](https://user-images.githubusercontent.com/67696918/117571528-e59c9b80-b109-11eb-95be-75fe908c52b7.png)
+![image](https://user-images.githubusercontent.com/67696918/117571536-edf4d680-b109-11eb-964e-485e9476fdbe.png)
+
