@@ -29,6 +29,7 @@ Mosquitto 서버를 실행하고, MQTT Publisher로 데이터를 발행하면 �
 
 ## 상황 별 웹 화면
 ![image](https://user-images.githubusercontent.com/67696918/232515293-a6d9b9a4-b6b2-4348-a614-88c4edc0a7fa.png)
+
 ![image](https://user-images.githubusercontent.com/67696918/232515319-39815537-6cbe-4865-8c38-85f5ee60dae0.png)
 
 
